@@ -1,0 +1,88 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <title>麻将工具</title>
+  <style>
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      min-height: 100vh;
+      background: #f5f2ec;
+      color: #24211d;
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "PingFang SC", "Microsoft YaHei", sans-serif;
+    }
+
+    main {
+      width: min(100%, 720px);
+      margin: 0 auto;
+      padding: 28px 16px;
+    }
+
+    h1 {
+      margin: 0;
+      font-size: 28px;
+      line-height: 1.15;
+    }
+
+    p {
+      margin: 8px 0 0;
+      color: #756f67;
+      font-size: 14px;
+      line-height: 1.55;
+    }
+
+    .tools {
+      display: grid;
+      gap: 12px;
+      margin-top: 22px;
+    }
+
+    a {
+      display: block;
+      padding: 16px;
+      border: 1px solid #e4ddd1;
+      border-radius: 8px;
+      background: #fffdf9;
+      color: inherit;
+      text-decoration: none;
+      box-shadow: 0 10px 28px rgba(63, 45, 18, .08);
+    }
+
+    strong {
+      display: block;
+      font-size: 19px;
+    }
+
+    span {
+      display: block;
+      margin-top: 6px;
+      color: #756f67;
+      font-size: 14px;
+      line-height: 1.45;
+    }
+  </style>
+</head>
+<body>
+  <main>
+    <h1>麻将工具</h1>
+    <p>两个工具互不影响，按需要打开使用。</p>
+
+    <div class="tools">
+      <a href="fuzhou-score.html">
+        <strong>福州麻将单把算分</strong>
+        <span>只算赢家本把得分，适合快速点选花、金、杠和特殊牌型。</span>
+      </a>
+
+      <a href="room-score.html">
+        <strong>四人房间计分</strong>
+        <span>记录四个人整场积分、每把流水、金额换算和结束后的历史结果。</span>
+      </a>
+    </div>
+  </main>
+</body>
+</html>

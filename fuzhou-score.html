@@ -1,0 +1,550 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <title>福州麻将单把算分</title>
+  <style>
+    :root {
+      --bg: #f6f3ee;
+      --panel: #fffdf9;
+      --ink: #24211d;
+      --muted: #756f67;
+      --line: #e4ddd1;
+      --red: #c73e32;
+      --green: #207f65;
+      --gold: #c89428;
+      --gold-soft: #fff1c8;
+      --shadow: 0 16px 40px rgba(74, 51, 18, .10);
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      min-height: 100vh;
+      background: var(--bg);
+      color: var(--ink);
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "PingFang SC", "Microsoft YaHei", sans-serif;
+      letter-spacing: 0;
+    }
+
+    button, input {
+      font: inherit;
+    }
+
+    .app {
+      width: min(100%, 720px);
+      margin: 0 auto;
+      padding: 16px 14px 92px;
+    }
+
+    .top {
+      position: sticky;
+      top: 0;
+      z-index: 5;
+      margin: -16px -14px 14px;
+      padding: calc(14px + env(safe-area-inset-top)) 14px 12px;
+      background: rgba(246, 243, 238, .94);
+      border-bottom: 1px solid rgba(228, 221, 209, .75);
+      backdrop-filter: blur(16px);
+    }
+
+    .title-row {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+    }
+
+    h1 {
+      margin: 0;
+      font-size: 24px;
+      line-height: 1.1;
+    }
+
+    h2 {
+      margin: 0;
+      font-size: 17px;
+    }
+
+    .subtitle {
+      margin: 6px 0 0;
+      color: var(--muted);
+      font-size: 13px;
+    }
+
+    .score-card {
+      margin-top: 14px;
+      display: grid;
+      grid-template-columns: 1fr auto;
+      align-items: end;
+      gap: 10px;
+      padding: 14px;
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      background: linear-gradient(135deg, #fffdf9 0%, #fff5de 100%);
+      box-shadow: var(--shadow);
+    }
+
+    .score-label {
+      color: var(--muted);
+      font-size: 13px;
+    }
+
+    .score {
+      font-size: 48px;
+      font-weight: 800;
+      line-height: .95;
+      color: var(--red);
+      font-variant-numeric: tabular-nums;
+    }
+
+    .unit {
+      margin-left: 2px;
+      color: var(--muted);
+      font-size: 18px;
+    }
+
+    .formula {
+      margin-top: 8px;
+      color: var(--muted);
+      font-size: 13px;
+      line-height: 1.45;
+    }
+
+    .section {
+      margin-top: 12px;
+      padding: 14px;
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      background: var(--panel);
+    }
+
+    .section-head {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 10px;
+      margin-bottom: 12px;
+    }
+
+    .hint {
+      color: var(--muted);
+      font-size: 12px;
+      white-space: nowrap;
+    }
+
+    .counter {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) 44px 48px 48px;
+      align-items: center;
+      gap: 10px;
+      min-height: 48px;
+      border-top: 1px solid #f0ebe3;
+      padding-top: 10px;
+      margin-top: 10px;
+    }
+
+    .counter:first-of-type {
+      border-top: 0;
+      padding-top: 0;
+      margin-top: 0;
+    }
+
+    .name {
+      font-size: 15px;
+      font-weight: 650;
+    }
+
+    .desc {
+      margin-top: 3px;
+      color: var(--muted);
+      font-size: 12px;
+      line-height: 1.35;
+    }
+
+    .value {
+      justify-self: center;
+      min-width: 44px;
+      text-align: center;
+      font-size: 20px;
+      font-weight: 800;
+      font-variant-numeric: tabular-nums;
+    }
+
+    .icon-btn {
+      width: 48px;
+      height: 44px;
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      background: #fff;
+      color: var(--ink);
+      font-size: 24px;
+      font-weight: 800;
+      box-shadow: 0 3px 0 rgba(0, 0, 0, .04);
+    }
+
+    .chips {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 8px;
+    }
+
+    .chip {
+      min-height: 46px;
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      background: #fff;
+      color: var(--ink);
+      padding: 8px 10px;
+      text-align: left;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 6px;
+    }
+
+    .chip strong {
+      font-size: 15px;
+    }
+
+    .chip span {
+      color: var(--muted);
+      font-size: 12px;
+      white-space: nowrap;
+    }
+
+    .chip.active {
+      border-color: #e4b94a;
+      background: var(--gold-soft);
+      box-shadow: inset 0 0 0 1px #e4b94a;
+    }
+
+    .segmented {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 8px;
+    }
+
+    .segmented button {
+      min-height: 48px;
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      background: #fff;
+      color: var(--ink);
+      font-weight: 750;
+    }
+
+    .segmented button.active {
+      color: #fff;
+      border-color: var(--green);
+      background: var(--green);
+    }
+
+    .manual {
+      display: grid;
+      grid-template-columns: 1fr 112px;
+      align-items: center;
+      gap: 10px;
+      margin-top: 12px;
+      padding-top: 12px;
+      border-top: 1px solid #f0ebe3;
+    }
+
+    input[type="number"] {
+      width: 100%;
+      height: 44px;
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      background: #fff;
+      color: var(--ink);
+      padding: 0 10px;
+      text-align: center;
+      font-size: 18px;
+      font-weight: 750;
+    }
+
+    .summary {
+      display: grid;
+      gap: 8px;
+      color: var(--muted);
+      font-size: 14px;
+      line-height: 1.45;
+    }
+
+    .summary b {
+      color: var(--ink);
+    }
+
+    .reset, .home-link {
+      border: 0;
+      border-radius: 8px;
+      background: #2f2b25;
+      color: #fff;
+      padding: 10px 14px;
+      font-weight: 750;
+      text-decoration: none;
+      font-size: 14px;
+    }
+
+    .bottom-bar {
+      position: fixed;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      z-index: 6;
+      padding: 10px 14px calc(10px + env(safe-area-inset-bottom));
+      background: rgba(255, 253, 249, .96);
+      border-top: 1px solid var(--line);
+      backdrop-filter: blur(16px);
+    }
+
+    .bottom-inner {
+      width: min(100%, 720px);
+      margin: 0 auto;
+      display: grid;
+      grid-template-columns: 1fr 118px;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .mini-score {
+      color: var(--red);
+      font-weight: 800;
+      font-size: 22px;
+      font-variant-numeric: tabular-nums;
+    }
+
+    .mini-score small {
+      margin-left: 4px;
+      color: var(--muted);
+      font-size: 12px;
+      font-weight: 600;
+    }
+
+    @media (max-width: 380px) {
+      .chips {
+        grid-template-columns: 1fr;
+      }
+
+      .score {
+        font-size: 42px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <main class="app">
+    <header class="top">
+      <div class="title-row">
+        <div>
+          <h1>福州麻将单把算分</h1>
+          <p class="subtitle">四人局，只算本把赢家得分</p>
+        </div>
+        <a class="home-link" href="index.html">首页</a>
+      </div>
+      <div class="score-card">
+        <div>
+          <div class="score-label">赢家本把得分</div>
+          <div class="formula" id="formula">底 0 + 花 0 + 金 0 + 杠 0 + 特殊 0</div>
+        </div>
+        <div><span class="score" id="score">0</span><span class="unit">分</span></div>
+      </div>
+    </header>
+
+    <section class="section">
+      <div class="section-head">
+        <h2>胡牌方式</h2>
+        <span class="hint">自摸会翻倍</span>
+      </div>
+      <div class="segmented" id="winType">
+        <button type="button" data-type="discard" class="active">放炮胡</button>
+        <button type="button" data-type="self">自摸胡</button>
+      </div>
+    </section>
+
+    <section class="section">
+      <div class="section-head">
+        <h2>基础分</h2>
+        <span class="hint">底 + 花 + 金 + 杠</span>
+      </div>
+      <div class="counter" data-key="base">
+        <div><div class="name">底</div><div class="desc">1庄1分，2连庄2分，按实际底分点</div></div>
+        <div class="value" data-value="base">0</div>
+        <button class="icon-btn minus" type="button">-</button>
+        <button class="icon-btn plus" type="button">+</button>
+      </div>
+      <div class="counter" data-key="flowers">
+        <div><div class="name">花</div><div class="desc">1个花1分，20个花可直接胡</div></div>
+        <div class="value" data-value="flowers">0</div>
+        <button class="icon-btn minus" type="button">-</button>
+        <button class="icon-btn plus" type="button">+</button>
+      </div>
+      <div class="counter" data-key="gold">
+        <div><div class="name">金</div><div class="desc">1个金1分</div></div>
+        <div class="value" data-value="gold">0</div>
+        <button class="icon-btn minus" type="button">-</button>
+        <button class="icon-btn plus" type="button">+</button>
+      </div>
+      <div class="counter" data-key="openKong">
+        <div><div class="name">明杠</div><div class="desc">每个1分，需要补牌</div></div>
+        <div class="value" data-value="openKong">0</div>
+        <button class="icon-btn minus" type="button">-</button>
+        <button class="icon-btn plus" type="button">+</button>
+      </div>
+      <div class="counter" data-key="hiddenKong">
+        <div><div class="name">暗杠</div><div class="desc">每个2分，需要补牌</div></div>
+        <div class="value" data-value="hiddenKong">0</div>
+        <button class="icon-btn minus" type="button">-</button>
+        <button class="icon-btn plus" type="button">+</button>
+      </div>
+    </section>
+
+    <section class="section">
+      <div class="section-head">
+        <h2>特殊胡牌</h2>
+        <span class="hint">可多选</span>
+      </div>
+      <div class="chips" id="specials"></div>
+      <div class="manual">
+        <div><div class="name">其他特殊分</div><div class="desc">你们临时约定的额外分数</div></div>
+        <input id="manualSpecial" type="number" min="0" step="1" value="0" inputmode="numeric">
+      </div>
+    </section>
+
+    <section class="section">
+      <div class="section-head">
+        <h2>结果说明</h2>
+      </div>
+      <div class="summary">
+        <div>放炮胡：<b>底 + 花 + 金 + 杠 + 特殊分</b></div>
+        <div>自摸胡：<b>上面结果 x 2</b></div>
+        <div>算钱参考：如果按“5分算一片”，可以用总分除以5。</div>
+      </div>
+    </section>
+  </main>
+
+  <div class="bottom-bar">
+    <div class="bottom-inner">
+      <div class="mini-score"><span id="miniScore">0</span> 分 <small id="miniNote">约 0 片</small></div>
+      <button class="reset" id="resetBtn" type="button">重新算</button>
+    </div>
+  </div>
+
+  <script>
+    const state = {
+      winType: 'discard',
+      base: 0,
+      flowers: 0,
+      gold: 0,
+      openKong: 0,
+      hiddenKong: 0,
+      manualSpecial: 0,
+      selectedSpecials: new Set()
+    };
+
+    const specials = [
+      { id: 'oneFlower', name: '一张花', points: 15 },
+      { id: 'heaven', name: '天胡', points: 30 },
+      { id: 'robGold', name: '抢金', points: 30 },
+      { id: 'noFlowerKong', name: '无花无杠', points: 30 },
+      { id: 'threeGold', name: '三金倒', points: 40 },
+      { id: 'goldBird', name: '金雀', points: 60 },
+      { id: 'goldKan', name: '金坎', points: 60 },
+      { id: 'goldDragon', name: '金龙', points: 120 },
+      { id: 'mixedSuit', name: '混一色', points: 120 },
+      { id: 'pureSuit', name: '清一色', points: 240 }
+    ];
+
+    const scoreEl = document.getElementById('score');
+    const miniScoreEl = document.getElementById('miniScore');
+    const miniNoteEl = document.getElementById('miniNote');
+    const formulaEl = document.getElementById('formula');
+    const specialsEl = document.getElementById('specials');
+
+    function clamp(value) {
+      return Math.max(0, Number.isFinite(value) ? value : 0);
+    }
+
+    function getParts() {
+      const kongScore = state.openKong + state.hiddenKong * 2;
+      const specialScore = specials
+        .filter(item => state.selectedSpecials.has(item.id))
+        .reduce((sum, item) => sum + item.points, 0) + state.manualSpecial;
+      const baseScore = state.base + state.flowers + state.gold + kongScore + specialScore;
+      const multiplier = state.winType === 'self' ? 2 : 1;
+      return { kongScore, specialScore, baseScore, multiplier, total: baseScore * multiplier };
+    }
+
+    function render() {
+      document.querySelectorAll('[data-value]').forEach(el => {
+        el.textContent = state[el.dataset.value];
+      });
+      document.querySelectorAll('#winType button').forEach(button => {
+        button.classList.toggle('active', button.dataset.type === state.winType);
+      });
+      document.querySelectorAll('.chip').forEach(button => {
+        button.classList.toggle('active', state.selectedSpecials.has(button.dataset.id));
+      });
+      const parts = getParts();
+      scoreEl.textContent = parts.total;
+      miniScoreEl.textContent = parts.total;
+      miniNoteEl.textContent = `约 ${(parts.total / 5).toFixed(1).replace('.0', '')} 片`;
+      formulaEl.textContent = `底 ${state.base} + 花 ${state.flowers} + 金 ${state.gold} + 杠 ${parts.kongScore} + 特殊 ${parts.specialScore}${parts.multiplier === 2 ? '，自摸 x2' : ''}`;
+    }
+
+    function changeCounter(key, delta) {
+      state[key] = clamp(state[key] + delta);
+      render();
+    }
+
+    function reset() {
+      state.winType = 'discard';
+      state.base = 0;
+      state.flowers = 0;
+      state.gold = 0;
+      state.openKong = 0;
+      state.hiddenKong = 0;
+      state.manualSpecial = 0;
+      state.selectedSpecials.clear();
+      document.getElementById('manualSpecial').value = 0;
+      render();
+    }
+
+    specials.forEach(item => {
+      const button = document.createElement('button');
+      button.type = 'button';
+      button.className = 'chip';
+      button.dataset.id = item.id;
+      button.innerHTML = `<strong>${item.name}</strong><span>${item.points}分</span>`;
+      button.addEventListener('click', () => {
+        if (state.selectedSpecials.has(item.id)) state.selectedSpecials.delete(item.id);
+        else state.selectedSpecials.add(item.id);
+        render();
+      });
+      specialsEl.appendChild(button);
+    });
+
+    document.querySelectorAll('.counter').forEach(row => {
+      const key = row.dataset.key;
+      row.querySelector('.minus').addEventListener('click', () => changeCounter(key, -1));
+      row.querySelector('.plus').addEventListener('click', () => changeCounter(key, 1));
+    });
+    document.querySelectorAll('#winType button').forEach(button => {
+      button.addEventListener('click', () => {
+        state.winType = button.dataset.type;
+        render();
+      });
+    });
+    document.getElementById('manualSpecial').addEventListener('input', event => {
+      state.manualSpecial = clamp(parseInt(event.target.value, 10) || 0);
+      render();
+    });
+    document.getElementById('resetBtn').addEventListener('click', reset);
+    render();
+  </script>
+</body>
+</html>
