@@ -422,14 +422,14 @@
       <div class="summary">
         <div>放炮胡：<b>底 + 花 + 金 + 杠 + 特殊分</b></div>
         <div>自摸胡：<b>上面结果 x 2</b></div>
-        <div>算钱参考：如果按“5分算一片”，可以用总分除以5。</div>
+        <div>算钱参考：1分 = 0.1元，本页只显示本把金额。</div>
       </div>
     </section>
   </main>
 
   <div class="bottom-bar">
     <div class="bottom-inner">
-      <div class="mini-score"><span id="miniScore">0</span> 分 <small id="miniNote">约 0 片</small></div>
+      <div class="mini-score"><span id="miniScore">0</span> 分 <small id="miniNote">约 0 元</small></div>
       <button class="reset" id="resetBtn" type="button">重新算</button>
     </div>
   </div>
@@ -492,7 +492,7 @@
       const parts = getParts();
       scoreEl.textContent = parts.total;
       miniScoreEl.textContent = parts.total;
-      miniNoteEl.textContent = `约 ${(parts.total / 5).toFixed(1).replace('.0', '')} 片`;
+      miniNoteEl.textContent = `约 ${(parts.total * 0.1).toFixed(2)} 元`;
       formulaEl.textContent = `底 ${state.base} + 花 ${state.flowers} + 金 ${state.gold} + 杠 ${parts.kongScore} + 特殊 ${parts.specialScore}${parts.multiplier === 2 ? '，自摸 x2' : ''}`;
     }
 
