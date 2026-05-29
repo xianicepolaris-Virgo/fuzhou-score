@@ -3,86 +3,92 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-  <title>麻将工具</title>
+  <title>在线四人麻将计分</title>
   <style>
-    * {
-      box-sizing: border-box;
-    }
-
-    body {
-      margin: 0;
-      min-height: 100vh;
-      background: #f5f2ec;
-      color: #24211d;
-      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "PingFang SC", "Microsoft YaHei", sans-serif;
-    }
-
-    main {
-      width: min(100%, 720px);
-      margin: 0 auto;
-      padding: 28px 16px;
-    }
-
-    h1 {
-      margin: 0;
-      font-size: 28px;
-      line-height: 1.15;
-    }
-
-    p {
-      margin: 8px 0 0;
-      color: #756f67;
-      font-size: 14px;
-      line-height: 1.55;
-    }
-
-    .tools {
-      display: grid;
-      gap: 12px;
-      margin-top: 22px;
-    }
-
-    a {
-      display: block;
-      padding: 16px;
-      border: 1px solid #e4ddd1;
-      border-radius: 8px;
-      background: #fffdf9;
-      color: inherit;
-      text-decoration: none;
-      box-shadow: 0 10px 28px rgba(63, 45, 18, .08);
-    }
-
-    strong {
-      display: block;
-      font-size: 19px;
-    }
-
-    span {
-      display: block;
-      margin-top: 6px;
-      color: #756f67;
-      font-size: 14px;
-      line-height: 1.45;
-    }
+    :root{--bg:#f5f2ec;--panel:#fffdf9;--ink:#24211d;--muted:#756f67;--line:#e5ded3;--brand:#19715d;--soft:#e7f3ef;--red:#c74337;--gold:#c58b21;--gold-soft:#fff2cf}
+    *{box-sizing:border-box}body{margin:0;min-height:100vh;background:var(--bg);color:var(--ink);font-family:-apple-system,BlinkMacSystemFont,"Segoe UI","PingFang SC","Microsoft YaHei",sans-serif}button,input{font:inherit}button{-webkit-tap-highlight-color:transparent;cursor:pointer}
+    .app{width:min(100%,760px);margin:0 auto;padding:14px 14px 96px}.top{position:sticky;top:0;z-index:10;margin:-14px -14px 12px;padding:calc(14px + env(safe-area-inset-top)) 14px 12px;background:rgba(245,242,236,.95);border-bottom:1px solid rgba(229,222,211,.82);backdrop-filter:blur(16px)}
+    .row{display:flex;align-items:center;justify-content:space-between;gap:10px}h1,h2,h3,p{margin:0}h1{font-size:24px;line-height:1.1}h2{font-size:17px}h3{font-size:15px}.sub{margin-top:5px;color:var(--muted);font-size:13px;line-height:1.45}.badge{flex:0 0 auto;padding:8px 10px;border-radius:8px;background:#fff;border:1px solid var(--line);color:var(--brand);font-weight:800;font-size:14px}
+    .section{margin-top:12px;padding:14px;border:1px solid var(--line);border-radius:8px;background:var(--panel);box-shadow:0 6px 22px rgba(63,45,18,.04)}.grid2,.tabs,.bottom-inner,.sheet-actions{display:grid;grid-template-columns:1fr 1fr;gap:8px}.tabs{margin-top:12px}.tabs button{min-height:42px;border:1px solid var(--line);border-radius:8px;background:#fff;font-weight:800}.tabs button.active{background:var(--brand);border-color:var(--brand);color:#fff}
+    .primary,.secondary,.danger,.plain{min-height:46px;border-radius:8px;border:1px solid transparent;padding:0 14px;font-weight:780}.primary{background:var(--brand);color:#fff}.secondary{background:#fff;color:var(--ink);border-color:var(--line)}.danger{background:var(--red);color:#fff}.plain{background:var(--soft);color:var(--brand);border-color:#cce5dd}button:disabled{opacity:.48;cursor:not-allowed}
+    .field{margin-top:10px}.field label{display:block;margin-bottom:6px;color:var(--muted);font-size:13px}input{width:100%;height:46px;border:1px solid var(--line);border-radius:8px;background:#fff;color:var(--ink);padding:0 12px;font-size:17px;outline:none}input:focus{border-color:var(--brand);box-shadow:0 0 0 3px rgba(25,113,93,.12)}
+    .players{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}.player{min-height:144px;border:1px solid var(--line);border-radius:8px;background:#fff;padding:12px;text-align:left}.player.empty{border-style:dashed;background:#fffaf0}.player.can{box-shadow:0 4px 0 rgba(0,0,0,.025)}.name{width:100%;overflow:hidden;white-space:nowrap;text-overflow:ellipsis;font-size:17px;font-weight:850}.seat{margin-top:3px;color:var(--muted);font-size:12px}.score{margin-top:10px;font-size:31px;line-height:1;font-weight:900;font-variant-numeric:tabular-nums}.positive{color:var(--red)}.negative{color:var(--brand)}.money{margin-top:8px;color:var(--muted);font-size:13px;line-height:1.35}
+    .mini{min-height:34px;border:1px solid var(--line);border-radius:8px;background:#fff;color:var(--ink);font-size:12px;font-weight:800}.player-actions{display:grid;grid-template-columns:1fr 1fr;gap:6px;margin-top:9px}.quick-grid,.calc-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;margin-top:10px}.quick-grid button,.calc-grid button{min-height:42px;border:1px solid var(--line);border-radius:8px;background:#fff;font-weight:800}.quick-grid button.active,.calc-grid button.active{background:var(--gold-soft);border-color:var(--gold);color:#6d480b}.quick-item{display:grid;grid-template-columns:1fr 32px;gap:4px}.quick-item button{min-width:0}.quick-item .del{padding:0;color:var(--red)}
+    .records,.members{display:grid;gap:8px}.records{max-height:360px;overflow:auto;padding-right:2px}.record,.member,.history-item{border:1px solid #eee6dc;border-radius:8px;background:#fff;padding:10px}.record-main{display:flex;justify-content:space-between;gap:10px;font-size:14px;line-height:1.4}.record-main b{color:var(--red)}.record-time{margin-top:4px;color:var(--muted);font-size:12px}.empty-tip{color:var(--muted);font-size:14px;line-height:1.5;padding:8px 0}.tag{display:inline-block;margin-left:4px;padding:2px 6px;border-radius:999px;background:var(--soft);color:var(--brand);font-size:11px;font-weight:800}.history-scores{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:8px;margin-top:10px;color:var(--muted);font-size:13px}.history-scores b{color:var(--ink);font-size:15px}
+    .modal{position:fixed;inset:0;z-index:50;display:none;align-items:flex-end;background:rgba(24,20,16,.38);padding:14px}.modal.open{display:flex}.sheet{width:min(100%,720px);margin:0 auto;border-radius:12px 12px 8px 8px;background:var(--panel);border:1px solid var(--line);box-shadow:0 14px 36px rgba(63,45,18,.10);padding:14px}.payer-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-top:10px}.payer{min-height:50px;border:1px solid var(--line);border-radius:8px;background:#fff;font-weight:800}.payer.active{border-color:var(--gold);background:var(--gold-soft);color:#6d480b;box-shadow:inset 0 0 0 1px var(--gold)}
+    .room-code{margin:12px 0 8px;text-align:center;font-size:40px;font-weight:900;letter-spacing:4px;color:var(--brand);font-variant-numeric:tabular-nums}.qr{display:block;width:220px;height:220px;margin:12px auto;border:1px solid var(--line);border-radius:8px;background:#fff}.share-link{padding:10px;border:1px solid var(--line);border-radius:8px;background:#fff;color:var(--muted);font-size:12px;line-height:1.4;word-break:break-all}
+    .toast{position:fixed;left:50%;bottom:calc(84px + env(safe-area-inset-bottom));z-index:80;transform:translateX(-50%);max-width:calc(100% - 28px);padding:10px 14px;border-radius:8px;background:#2c2822;color:#fff;font-size:14px;opacity:0;pointer-events:none;transition:opacity .18s ease,transform .18s ease}.toast.show{opacity:1;transform:translateX(-50%) translateY(-4px)}.bottom{position:fixed;left:0;right:0;bottom:0;z-index:20;padding:10px 14px calc(10px + env(safe-area-inset-bottom));border-top:1px solid var(--line);background:rgba(255,253,249,.96);backdrop-filter:blur(16px)}.bottom-inner{width:min(100%,760px);margin:0 auto}[hidden]{display:none!important}@media(max-width:390px){.players{gap:8px}.player{min-height:138px;padding:10px}.score{font-size:27px}.grid2,.sheet-actions{grid-template-columns:1fr}.quick-grid,.calc-grid{grid-template-columns:repeat(2,1fr)}}
   </style>
 </head>
 <body>
-  <main>
-    <h1>麻将工具</h1>
-    <p>两个工具互不影响，按需要打开使用。</p>
-
-    <div class="tools">
-      <a href="fuzhou-score.html">
-        <strong>福州麻将单把算分</strong>
-        <span>只算赢家本把得分，适合快速点选花、金、杠和特殊牌型。</span>
-      </a>
-
-      <a href="room-score.html">
-        <strong>四人房间计分</strong>
-        <span>记录四个人整场积分、每把流水、金额换算和结束后的历史结果。</span>
-      </a>
-    </div>
+  <main class="app">
+    <header class="top">
+      <div class="row"><div><h1>在线四人麻将计分</h1><p class="sub" id="topSub">随便填账号密码即可登录，同浏览器会自动记住</p></div><div class="badge" id="roomBadge" hidden></div></div>
+      <div class="tabs"><button id="roomTab" class="active" type="button">房间</button><button id="historyTab" type="button">个人中心</button></div>
+    </header>
+    <section id="authView"><div class="section"><h2>快速登录</h2><p class="sub">账号不存在会自动创建；账号存在时密码要一致。</p><div class="field"><label for="accountInput">账号</label><input id="accountInput" autocomplete="username" placeholder="例如 a-dong"></div><div class="field"><label for="passwordInput">密码</label><input id="passwordInput" type="password" autocomplete="current-password" placeholder="自己记得住即可"></div><div class="field"><label for="nicknameInput">昵称</label><input id="nicknameInput" maxlength="12" placeholder="牌桌上显示的名字"></div><div class="grid2" style="margin-top:12px"><button class="primary" id="loginBtn" type="button">进入</button><button class="secondary" id="clearSavedBtn" type="button">清除记住</button></div></div></section>
+    <section id="homeView" hidden><div class="section"><div class="row"><div><h2>开一个新房间</h2><p class="sub">固定四个玩家座位，其他人可旁观。</p></div><button class="secondary" id="logoutBtn" type="button">退出</button></div><div class="grid2" style="margin-top:14px"><button class="primary" id="createRoomBtn" type="button">开房间</button><button class="secondary" id="refreshBtn" type="button">刷新</button></div></div><div class="section"><h2>输入房间号</h2><p class="sub">也可以直接打开朋友发来的分享链接。</p><div class="field"><label for="joinCode">房间号</label><input id="joinCode" inputmode="numeric" maxlength="6" placeholder="例如 382914"></div><div class="grid2" style="margin-top:12px"><button class="plain" id="joinRoomBtn" type="button">进房旁观</button><button class="secondary" id="joinSeatBtn" type="button">进房入座</button></div></div></section>
+    <section id="roomView" hidden>
+      <div class="section"><div class="row"><div><h2>四人总分</h2><p class="sub" id="roleSub">点赢家名字，算分后选择谁给分</p></div><button class="secondary" id="leaveRoomBtn" type="button">离开</button></div><div class="players" id="players"></div></div>
+      <div class="section"><h2>常用分数</h2><p class="sub">可自己增加或删除，点赢家后会带入当前分数。</p><div class="quick-grid" id="quickPoints"></div><div class="grid2" style="margin-top:10px"><input id="quickInput" type="number" min="1" inputmode="numeric" placeholder="新增分数"><button class="plain" id="addQuickBtn" type="button">增加</button></div></div>
+      <div class="section"><h2>房内算分器</h2><p class="sub">先在这里算本把分，再点赢家名字记录。</p><div class="grid2"><div class="field"><label>底</label><input id="calcBase" type="number" min="0" value="0" inputmode="numeric"></div><div class="field"><label>花</label><input id="calcFlower" type="number" min="0" value="0" inputmode="numeric"></div><div class="field"><label>金</label><input id="calcGold" type="number" min="0" value="0" inputmode="numeric"></div><div class="field"><label>明杠</label><input id="calcOpenKong" type="number" min="0" value="0" inputmode="numeric"></div><div class="field"><label>暗杠</label><input id="calcHiddenKong" type="number" min="0" value="0" inputmode="numeric"></div><div class="field"><label>其他特殊</label><input id="calcManual" type="number" min="0" value="0" inputmode="numeric"></div></div><div class="grid2" style="margin-top:10px"><button class="secondary" id="selfDrawBtn" type="button">放炮胡</button><button class="plain" id="applyCalcBtn" type="button">使用算分：<span id="calcTotal">0</span></button></div><div class="grid2" style="margin-top:8px"><button class="secondary" id="clearCalcBtn" type="button">清空算分</button></div><div class="calc-grid" id="specialGrid"></div></div>
+      <div class="section"><div class="row"><div><h2>本场记录</h2><p class="sub" id="recordCount">还没有记录</p></div><button class="secondary" id="undoBtn" type="button">撤回</button></div><div class="records" id="records"></div></div>
+      <div class="section"><h2>房间成员</h2><p class="sub">房主可以踢人；被踢的人不能继续查看这个房间。</p><div class="members" id="members"></div></div>
+    </section>
+    <section id="historyView" hidden><div class="section"><h2>个人中心</h2><p class="sub">只显示你参与过并已结束的房间。</p><div id="historyList"></div></div></section>
   </main>
+  <div class="bottom" id="roomBottom" hidden><div class="bottom-inner"><button class="secondary" id="shareBtn" type="button">分享房间</button><button class="danger" id="finishRoomBtn" type="button">结束房间</button></div></div>
+  <div class="modal" id="scoreModal" aria-hidden="true"><div class="sheet"><div class="row"><div><h2 id="modalTitle">给赢家加分</h2><p class="sub">默认由当前登录玩家给分，可临时改成别人。</p></div><button class="secondary" id="closeModalBtn" type="button">关闭</button></div><div class="field"><label for="pointsInput">每个输家给多少积分</label><input id="pointsInput" type="number" min="1" step="1" inputmode="numeric" value="10"></div><div class="payer-grid" id="payerGrid"></div><div class="sheet-actions"><button class="secondary" id="allPayersBtn" type="button">三家都给</button><button class="primary" id="saveScoreBtn" type="button">记这一把</button></div></div></div>
+  <div class="modal" id="shareModal" aria-hidden="true"><div class="sheet"><div class="row"><div><h2>分享房间</h2><p class="sub">把房间号发给朋友，或让朋友微信扫码进入。</p></div><button class="secondary" id="closeShareBtn" type="button">关闭</button></div><div class="room-code" id="shareCode">000000</div><img class="qr" id="shareQr" alt="房间二维码"><div class="share-link" id="shareLink"></div><div class="sheet-actions"><button class="secondary" id="copyCodeBtn" type="button">复制房间号</button><button class="primary" id="copyLinkBtn" type="button">复制链接</button></div></div></div>
+  <div class="toast" id="toast"></div>
+  <script type="module">
+    import { createClient } from 'https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/+esm';
+    const SUPABASE_URL='https://mqcuhnyakftyxpbffbwu.supabase.co';
+    const SUPABASE_ANON_KEY='eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im1xY3Vobnlha2Z0eXhwYmZmYnd1Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzkwMzc4MDcsImV4cCI6MjA5NDYxMzgwN30.-J_yAf8Eu2-yBWxK_nfmThbkIqjfDv_3-8yrZxqfOy0';
+    const supabase=createClient(SUPABASE_URL,SUPABASE_ANON_KEY);
+    const USER_KEY='mahjong-simple-user-v2',ROOM_KEY='mahjong-current-room-v2',QUICK_KEY='mahjong-quick-points-v2';
+    const seatNames=['东家','南家','西家','北家'];
+    const specials=[['一张花',15],['天胡',30],['抢金',30],['无花无杠',30],['三金倒',40],['金雀',60],['金坎',60],['金龙',120],['混一色',120],['清一色',240]];
+    const $=id=>document.getElementById(id);
+    let currentUser=null,currentRoom=null,roomScores=[],roomMembers=[],roomRecords=[],channel=null,currentWinnerSeat=null,selectedPayers=new Set(),lastQuickPoints=10,quickValues=JSON.parse(localStorage.getItem(QUICK_KEY)||'[5,10,20,30]'),selectedSpecials=new Set(),isSelfDraw=false;
+    const toast=m=>{const el=$('toast');el.textContent=m;el.classList.add('show');clearTimeout(toast.t);toast.t=setTimeout(()=>el.classList.remove('show'),1800)};
+    const esc=v=>String(v??'').replaceAll('&','&amp;').replaceAll('<','&lt;').replaceAll('>','&gt;').replaceAll('"','&quot;').replaceAll("'","&#039;");
+    const signed=v=>v>0?`+${v}`:String(v);
+    const money=p=>{const raw=Math.abs(p)*0.1;const capped=Math.min(raw,25);const a=capped.toFixed(2);const cap=raw>25?'（已封顶）':'';return p>0?`应收约 ${a} 元${cap}`:p<0?`应付约 ${a} 元${cap}`:'0 元'};
+    const isHost=()=>currentRoom&&currentUser&&currentRoom.host_user_id===currentUser.id;
+    const ownMember=()=>roomMembers.find(m=>m.user_id===currentUser?.id&&m.status==='active');
+    const canScore=()=>currentRoom?.status==='active'&&ownMember()?.seat_index!==null&&ownMember()?.seat_index!==undefined;
+    async function hashPassword(text){const buf=await crypto.subtle.digest('SHA-256',new TextEncoder().encode(text));return [...new Uint8Array(buf)].map(b=>b.toString(16).padStart(2,'0')).join('')}
+    function showAuth(){authView.hidden=false;homeView.hidden=true;roomView.hidden=true;historyView.hidden=true;roomBottom.hidden=true;roomBadge.hidden=true;topSub.textContent='随便填账号密码即可登录，同浏览器会自动记住'}
+    function showHome(){authView.hidden=true;homeView.hidden=false;roomView.hidden=true;historyView.hidden=true;roomBottom.hidden=true;roomTab.classList.add('active');historyTab.classList.remove('active');roomBadge.hidden=true;topSub.textContent=currentUser?`${currentUser.nickname}，可以开房或进房`:'可以开房或进房'}
+    function showRoom(){authView.hidden=true;homeView.hidden=true;roomView.hidden=false;historyView.hidden=true;roomBottom.hidden=false;roomTab.classList.add('active');historyTab.classList.remove('active');roomBadge.hidden=false;roomBadge.textContent=currentRoom.room_code;topSub.textContent=currentRoom.status==='active'?'在线同步中':'房间已结束';finishRoomBtn.hidden=!isHost()||currentRoom.status!=='active';undoBtn.disabled=!canScore()&&!isHost();roleSub.textContent=canScore()?'点赢家名字，算分后选择谁给分':'你现在是旁观，不能记分'}
+    async function login(){const account=accountInput.value.trim(),password=passwordInput.value,nickname=nicknameInput.value.trim()||account;if(!account||!password)return toast('请填写账号和密码');const password_hash=await hashPassword(password);let {data:user,error}=await supabase.from('app_users').select('*').eq('account',account).maybeSingle();if(error)return toast(error.message);if(user&&user.password_hash!==password_hash)return toast('密码不对');if(!user){const r=await supabase.from('app_users').insert({account,password_hash,nickname}).select('*').single();if(r.error)return toast(r.error.message);user=r.data}else if(nickname&&nickname!==user.nickname){await supabase.from('app_users').update({nickname}).eq('id',user.id);user={...user,nickname}}currentUser=user;localStorage.setItem(USER_KEY,JSON.stringify({account,password,nickname:user.nickname}));showHome();await resumeRoom()}
+    async function autoLogin(){const saved=JSON.parse(localStorage.getItem(USER_KEY)||'null');if(!saved)return showAuth();accountInput.value=saved.account||'';passwordInput.value=saved.password||'';nicknameInput.value=saved.nickname||'';await login()}
+    async function resumeRoom(){const urlCode=new URLSearchParams(location.search).get('room');const saved=localStorage.getItem(ROOM_KEY);const code=urlCode||saved;if(code){joinCode.value=code;await openRoom(code,false,true)}}
+    async function makeCode(){for(let i=0;i<20;i++){const c=String(Math.floor(100000+Math.random()*900000));const {data}=await supabase.from('rooms').select('id').eq('room_code',c).maybeSingle();if(!data)return c}throw new Error('房间号生成失败')}
+    async function createRoom(){try{const code=await makeCode();const {data:room,error}=await supabase.from('rooms').insert({room_code:code,host_user_id:currentUser.id,status:'active'}).select('*').single();if(error)throw error;await supabase.from('room_scores').insert(seatNames.map((n,i)=>({room_id:room.id,seat_index:i,player_name:i===0?currentUser.nickname:n,score:0})));await supabase.from('room_members').insert({room_id:room.id,user_id:currentUser.id,nickname:currentUser.nickname,seat_index:0,role:'host',status:'active'});localStorage.setItem(ROOM_KEY,code);await openRoom(code,false);toast(`房间 ${code} 已创建`)}catch(e){toast(e.message||'开房失败')}}
+    async function openRoom(code,asSeat,silent=false){try{if(!code)return toast('请输入房间号');const {data:room,error}=await supabase.from('rooms').select('*').eq('room_code',code).maybeSingle();if(error)throw error;if(!room){if(!silent)toast('没有找到这个房间');return}if(room.status!=='active'){localStorage.removeItem(ROOM_KEY);if(!silent)toast('这个房间已经结束');return}const {data:ex}=await supabase.from('room_members').select('*').eq('room_id',room.id).eq('user_id',currentUser.id).maybeSingle();if(ex?.status==='kicked'){localStorage.removeItem(ROOM_KEY);return toast('你已被移出这个房间')}if(!ex){let seat=null;if(asSeat){const {data:usedRows}=await supabase.from('room_members').select('seat_index').eq('room_id',room.id).eq('status','active').not('seat_index','is',null);const used=new Set((usedRows||[]).map(r=>r.seat_index));seat=[0,1,2,3].find(i=>!used.has(i));if(seat===undefined){seat=null;toast('座位已满，已进入旁观')}}await supabase.from('room_members').insert({room_id:room.id,user_id:currentUser.id,nickname:currentUser.nickname,seat_index:seat,role:'member',status:'active'});if(seat!==null)await supabase.from('room_scores').update({player_name:currentUser.nickname}).eq('room_id',room.id).eq('seat_index',seat)}currentRoom=room;localStorage.setItem(ROOM_KEY,code);await loadRoom();subscribe();showRoom()}catch(e){toast(e.message||'进房失败')}}
+    async function loadRoom(){if(!currentRoom)return;const [a,b,c,d]=await Promise.all([supabase.from('room_scores').select('*').eq('room_id',currentRoom.id).order('seat_index'),supabase.from('room_members').select('*').eq('room_id',currentRoom.id).eq('status','active').order('created_at'),supabase.from('score_records').select('*').eq('room_id',currentRoom.id).order('created_at',{ascending:false}).limit(80),supabase.from('rooms').select('*').eq('id',currentRoom.id).single()]);if(a.error||b.error||c.error||d.error)return toast((a.error||b.error||c.error||d.error).message);roomScores=a.data||[];roomMembers=b.data||[];roomRecords=c.data||[];currentRoom=d.data;if(currentRoom.status!=='active')localStorage.removeItem(ROOM_KEY);render();showRoom()}
+    function subscribe(){if(channel)supabase.removeChannel(channel);channel=supabase.channel(`room-${currentRoom.id}`).on('postgres_changes',{event:'*',schema:'public',table:'rooms',filter:`id=eq.${currentRoom.id}`},loadRoom).on('postgres_changes',{event:'*',schema:'public',table:'room_scores',filter:`room_id=eq.${currentRoom.id}`},loadRoom).on('postgres_changes',{event:'*',schema:'public',table:'room_members',filter:`room_id=eq.${currentRoom.id}`},loadRoom).on('postgres_changes',{event:'*',schema:'public',table:'score_records',filter:`room_id=eq.${currentRoom.id}`},loadRoom).subscribe()}
+    function render(){renderQuick();players.innerHTML='';roomScores.forEach(s=>{const m=roomMembers.find(x=>x.seat_index===s.seat_index);const name=m?.nickname||s.player_name||seatNames[s.seat_index];const btn=document.createElement('button');btn.type='button';btn.className=`player ${m?'':'empty'} ${m&&canScore()?'can':''}`;btn.innerHTML=`<div class="name">${esc(name)}</div><div class="seat">${seatNames[s.seat_index]}${m?'':' · 空位'}</div><div class="score ${s.score>0?'positive':s.score<0?'negative':''}">${signed(s.score)}</div><div class="money">${money(s.score)}</div>${!m?'<div class="player-actions"><button class="mini sit" type="button">坐下</button></div>':''}`;if(m&&canScore())btn.addEventListener('click',()=>openScore(s.seat_index));const sit=btn.querySelector('.sit');if(sit)sit.addEventListener('click',e=>{e.stopPropagation();takeSeat(s.seat_index)});players.appendChild(btn)});members.innerHTML='';roomMembers.forEach(m=>{const div=document.createElement('div');div.className='member';div.innerHTML=`<div class="row"><div><b>${esc(m.nickname)}</b>${m.role==='host'?'<span class="tag">房主</span>':''}<div class="sub">${m.seat_index===null?'旁观':seatNames[m.seat_index]}</div></div>${isHost()&&m.user_id!==currentUser.id?'<button class="mini kick" type="button">踢出</button>':''}</div>`;const k=div.querySelector('.kick');if(k)k.addEventListener('click',()=>kick(m));members.appendChild(div)});recordCount.textContent=roomRecords.length?`最近 ${roomRecords.length} 把`:'还没有记录';records.innerHTML=roomRecords.length?'':'<div class="empty-tip">记分后，每一把会实时出现在这里。</div>';roomRecords.forEach(r=>{const div=document.createElement('div');div.className='record';div.innerHTML=`<div class="record-main"><span><b>${esc(r.winner_name)}</b> 收 ${r.score_points} 分 x ${r.payer_names.length} 人</span><span>+${r.total}</span></div><div class="record-time">${esc(r.payer_names.join('、'))} 给分 · ${new Date(r.created_at).toLocaleString()}</div>`;records.appendChild(div)});updateCalc()}
+    async function takeSeat(seat){const own=ownMember();if(!own)return toast('请先进入房间');if(own.seat_index!==null)return toast('你已经入座');await supabase.from('room_members').update({seat_index:seat}).eq('id',own.id);await supabase.from('room_scores').update({player_name:currentUser.nickname}).eq('room_id',currentRoom.id).eq('seat_index',seat);await loadRoom();toast('已入座')}
+    async function kick(m){await supabase.from('room_members').update({status:'kicked',seat_index:null}).eq('id',m.id);await loadRoom();toast('已踢出')}
+    function openScore(seat){currentWinnerSeat=seat;const own=ownMember();selectedPayers=new Set(own&&own.seat_index!==seat?[own.seat_index]:[]);modalTitle.textContent=`${roomScores.find(r=>r.seat_index===seat).player_name} 赢了`;pointsInput.value=lastQuickPoints;renderPayers();scoreModal.classList.add('open')}
+    function renderPayers(){payerGrid.innerHTML='';roomScores.filter(r=>r.seat_index!==currentWinnerSeat).forEach(r=>{const b=document.createElement('button');b.type='button';b.className=`payer ${selectedPayers.has(r.seat_index)?'active':''}`;b.textContent=r.player_name;b.onclick=()=>{selectedPayers.has(r.seat_index)?selectedPayers.delete(r.seat_index):selectedPayers.add(r.seat_index);renderPayers()};payerGrid.appendChild(b)})}
+    async function saveScore(){const pts=Math.max(1,parseInt(pointsInput.value,10)||0),payerSeats=[...selectedPayers];if(!payerSeats.length)return toast('至少选一个输家');lastQuickPoints=pts;const w=roomScores.find(r=>r.seat_index===currentWinnerSeat),ps=roomScores.filter(r=>payerSeats.includes(r.seat_index));await Promise.all([supabase.from('room_scores').update({score:w.score+pts*payerSeats.length}).eq('id',w.id),...ps.map(r=>supabase.from('room_scores').update({score:r.score-pts}).eq('id',r.id))]);await supabase.from('score_records').insert({room_id:currentRoom.id,winner_seat:w.seat_index,winner_name:w.player_name,payer_seats:payerSeats,payer_names:ps.map(r=>r.player_name),score_points:pts,total:pts*payerSeats.length,created_by_user_id:currentUser.id});scoreModal.classList.remove('open');await loadRoom();toast('已记一把')}
+    async function undo(){if(!roomRecords.length)return toast('没有可撤回的记录');const r=roomRecords[0];if(!isHost()&&r.created_by_user_id!==currentUser.id)return toast('只能撤回自己记的上一把');const w=roomScores.find(x=>x.seat_index===r.winner_seat),ps=roomScores.filter(x=>r.payer_seats.includes(x.seat_index));await Promise.all([supabase.from('room_scores').update({score:w.score-r.total}).eq('id',w.id),...ps.map(x=>supabase.from('room_scores').update({score:x.score+r.score_points}).eq('id',x.id))]);await supabase.from('score_records').delete().eq('id',r.id);await loadRoom();toast('已撤回上一把')}
+    async function finish(){if(!isHost())return toast('只有房主能结束房间');await supabase.from('rooms').update({status:'ended',ended_at:new Date().toISOString()}).eq('id',currentRoom.id);localStorage.removeItem(ROOM_KEY);toast('房间已结束，历史已保存');await loadRoom()}
+    async function history(){if(!currentUser)return showAuth();authView.hidden=true;homeView.hidden=true;roomView.hidden=true;historyView.hidden=false;roomBottom.hidden=true;roomTab.classList.remove('active');historyTab.classList.add('active');const {data,error}=await supabase.from('room_members').select('room_id, rooms(room_code,status,ended_at,room_scores(player_name,score),score_records(id))').eq('user_id',currentUser.id);if(error)return toast(error.message);const ended=(data||[]).map(r=>r.rooms).filter(r=>r?.status==='ended');historyList.innerHTML=ended.length?'':'<div class="empty-tip">你参与的房间结束后，会出现在这里。</div>';ended.forEach(r=>{const div=document.createElement('div');div.className='history-item';div.innerHTML=`<div class="row"><h3>房间 ${r.room_code}</h3><span class="sub">${r.ended_at?new Date(r.ended_at).toLocaleString():''}</span></div><div class="history-scores">${r.room_scores.map(s=>`<div><b>${esc(s.player_name)}</b><br>${signed(s.score)} 分 · ${money(s.score)}</div>`).join('')}</div>`;historyList.appendChild(div)})}
+    async function leave(){if(channel)await supabase.removeChannel(channel);channel=null;currentRoom=null;localStorage.removeItem(ROOM_KEY);showHome()}
+    function roomUrl(){return `${location.origin}${location.pathname}?room=${currentRoom.room_code}`}
+    function share(){const url=roomUrl();shareCode.textContent=currentRoom.room_code;shareLink.textContent=url;shareQr.src=`https://api.qrserver.com/v1/create-qr-code/?size=260x260&data=${encodeURIComponent(url)}`;shareModal.classList.add('open');shareModal.setAttribute('aria-hidden','false')}
+    async function copyText(text,message){try{await navigator.clipboard.writeText(text);toast(message)}catch{toast(text)}}
+    function renderQuick(){const box=$('quickPoints');box.innerHTML='';for(const p of quickPointsList()){const wrap=document.createElement('div');wrap.className='quick-item';wrap.innerHTML=`<button type="button" class="${p===lastQuickPoints?'active':''}" data-points="${p}">${p}</button><button class="del" type="button">×</button>`;wrap.querySelector('[data-points]').onclick=()=>{lastQuickPoints=p;renderQuick();toast(`已设为 ${p} 分`)};wrap.querySelector('.del').onclick=()=>{quickValues=quickValues.filter(x=>x!==p);localStorage.setItem(QUICK_KEY,JSON.stringify(quickValues));if(lastQuickPoints===p)lastQuickPoints=quickValues[0]||10;renderQuick()};box.appendChild(wrap)}}
+    function quickPointsList(){return [...new Set(quickValues)].sort((a,b)=>a-b)}
+    function updateCalc(){const n=id=>Math.max(0,parseInt($(id).value,10)||0);const special=[...selectedSpecials].reduce((sum,index)=>sum+specials[index][1],0);const total=(n('calcBase')+n('calcFlower')+n('calcGold')+n('calcOpenKong')+n('calcHiddenKong')*2+n('calcManual')+special)*(isSelfDraw?2:1);calcTotal.textContent=total;return total}
+    function setupCalc(){specialGrid.innerHTML='';specials.forEach(([name,points],index)=>{const b=document.createElement('button');b.type='button';b.textContent=`${name} ${points}`;b.onclick=()=>{selectedSpecials.has(index)?selectedSpecials.delete(index):selectedSpecials.add(index);b.classList.toggle('active');updateCalc()};specialGrid.appendChild(b)});['calcBase','calcFlower','calcGold','calcOpenKong','calcHiddenKong','calcManual'].forEach(id=>$(id).addEventListener('input',updateCalc));selfDrawBtn.onclick=()=>{isSelfDraw=!isSelfDraw;selfDrawBtn.textContent=isSelfDraw?'自摸胡 x2':'放炮胡';selfDrawBtn.className=isSelfDraw?'plain':'secondary';updateCalc()};clearCalcBtn.onclick=()=>{['calcBase','calcFlower','calcGold','calcOpenKong','calcHiddenKong','calcManual'].forEach(id=>$(id).value=0);selectedSpecials.clear();document.querySelectorAll('#specialGrid button').forEach(button=>button.classList.remove('active'));isSelfDraw=false;selfDrawBtn.textContent='放炮胡';selfDrawBtn.className='secondary';updateCalc();toast('算分已清空')};applyCalcBtn.onclick=()=>{lastQuickPoints=Math.max(1,updateCalc());renderQuick();toast(`已使用 ${lastQuickPoints} 分`)}}
+    loginBtn.onclick=login;clearSavedBtn.onclick=()=>{localStorage.removeItem(USER_KEY);localStorage.removeItem(ROOM_KEY);accountInput.value='';passwordInput.value='';nicknameInput.value='';toast('已清除')};logoutBtn.onclick=()=>{localStorage.removeItem(USER_KEY);localStorage.removeItem(ROOM_KEY);currentUser=null;showAuth()};createRoomBtn.onclick=createRoom;joinRoomBtn.onclick=()=>openRoom(joinCode.value.trim(),false);joinSeatBtn.onclick=()=>openRoom(joinCode.value.trim(),true);refreshBtn.onclick=()=>currentRoom?loadRoom():showHome();roomTab.onclick=()=>currentRoom?showRoom():showHome();historyTab.onclick=history;leaveRoomBtn.onclick=leave;shareBtn.onclick=share;finishRoomBtn.onclick=finish;undoBtn.onclick=undo;closeModalBtn.onclick=()=>scoreModal.classList.remove('open');closeShareBtn.onclick=()=>shareModal.classList.remove('open');copyCodeBtn.onclick=()=>copyText(currentRoom.room_code,'房间号已复制');copyLinkBtn.onclick=()=>copyText(roomUrl(),'链接已复制');saveScoreBtn.onclick=saveScore;allPayersBtn.onclick=()=>{selectedPayers=new Set(roomScores.filter(r=>r.seat_index!==currentWinnerSeat).map(r=>r.seat_index));renderPayers()};addQuickBtn.onclick=()=>{const v=Math.max(1,parseInt(quickInput.value,10)||0);if(!v)return;quickValues.push(v);lastQuickPoints=v;localStorage.setItem(QUICK_KEY,JSON.stringify(quickPointsList()));quickInput.value='';renderQuick()};scoreModal.onclick=e=>{if(e.target===scoreModal)scoreModal.classList.remove('open')};shareModal.onclick=e=>{if(e.target===shareModal)shareModal.classList.remove('open')};
+    setupCalc();autoLogin();
+  </script>
 </body>
 </html>
